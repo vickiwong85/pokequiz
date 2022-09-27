@@ -8,6 +8,7 @@ import FindQuiz from './components/FindQuiz.jsx';
 
 
 const App = () => {
+  const [username, setUsername] = useState();
   const [category, setCategory] = useState('9');
   const [difficulty, setDifficulty] = useState('easy');
   const [questions, setQuestions] = useState([]);
@@ -18,6 +19,34 @@ const App = () => {
   const [ball, setBall] = useState('Poké Ball');
   const [price, setPrice] = useState(10);
   const [pokemonlist, setPokemonList] = useState([]);
+  const [changeUser, setChange] = useState();
+  const [pokemon, setPokemon] = useState();
+
+  useEffect(() => {
+    var user = localStorage.getItem("username");
+    console.log(user);
+
+    if (user === null) {
+      var user = prompt('What is your username?');
+      setUsername(user);
+      localStorage.setItem("username", user)
+    } else {
+      setUsername(user);
+    }
+
+    var money = localStorage.getItem("pokedollars");
+
+    if (money === null) {
+      setPokeDollars(50);
+    } else {
+      setPokeDollars(localStorage.getItem("pokedollars"));
+    }
+
+    if (localStorage.getItem("pokemonlist") !== null) {
+      setPokemonList(JSON.parse(localStorage.getItem("pokemonlist")));
+    }
+
+  }, [changeUser])
 
   function changeCategory (event) {
     setCategory(event.currentTarget.value);
@@ -87,6 +116,7 @@ const App = () => {
     var currentPokeDollars = PokeDollars;
     currentPokeDollars+=numberCorrect;
     setPokeDollars(currentPokeDollars);
+    localStorage.setItem("pokedollars", currentPokeDollars);
     setQuestions([]);
   }
 
@@ -118,6 +148,7 @@ const App = () => {
     money = money - price;
     console.log(money);
     setPokeDollars(money);
+    localStorage.setItem("pokedollars", money);
 
     // if (ball === 'Poké Ball') {
     //   var id = Math.floor(Math.random() * (950));
@@ -141,15 +172,33 @@ const App = () => {
     if (ball === 'Master Ball') {
       path = 'masterball';
     }
+    var currentPoke = '';
 
     axios.get(`/pokemon/${path}/`)
       .then((data) => {
         console.log(data.data);
-        var pokemon = data.data.identifier.charAt(0).toUpperCase() + data.data.identifier.slice(1);
-        alert(`You bought a ${ball}! When you open the ${ball}... a wild ${pokemon} jumps out!`);
-        var list = pokemonlist.slice();
-        list.push(pokemon);
-        setPokemonList(list);
+        currentPoke = data.data;
+        var poke = data.data.identifier.charAt(0).toUpperCase() + data.data.identifier.slice(1);
+        alert(`You bought a ${ball}! When you open the ${ball}... a wild ${poke} jumps out!`);
+        axios.get(`https://pokeapi.co/api/v2/pokemon/${data.data.id}`)
+          .then((result) => {
+            console.log(result.data.forms[0].name);
+            console.log(result.data.sprites.front_default);
+            var pokemonInfo = {};
+            pokemonInfo.name = result.data.forms[0].name.charAt(0).toUpperCase() + result.data.forms[0].name.slice(1);;
+            pokemonInfo.photo = result.data.sprites.front_default;
+            pokemonInfo.weight = currentPoke.weight;
+            pokemonInfo.height = currentPoke.height;
+            pokemonInfo.baseExp = currentPoke.base_experience;
+            var list = pokemonlist.slice();
+            list.push(pokemonInfo);
+            console.log(list);
+            setPokemonList(list);
+            localStorage.setItem("pokemonlist", JSON.stringify(list));
+          })
+          .catch((err) => {
+            console.log(err);
+          })
       })
       .catch(err => {
         console.log(err);
@@ -173,6 +222,7 @@ const App = () => {
     <div>
       <h1>PokéQuiz</h1>
       <h4>Gatcha catch them all!</h4>
+      <h5>Welcome, {username}!</h5>
       <h6>PokéDollars: {PokeDollars}</h6>
       <FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
       {questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
