@@ -3,15 +3,14 @@ import Question from './Question.jsx'
 
 const Quiz = (props) => {
 
-
-
   return (
     <div>
       <h1>Quiz</h1>
-      {props.questions.map((question, index) => (
-        <Question key={index} question={question}/>
+      {props.questions.length > 1 && props.questions.map((question, index) => (
+        <Question key={index} question={question} number={index + 1} chooseAnswer={props.chooseAnswer} index={index} required/>
       ))}
-      <Question/>
+      <br></br>
+      <button onClick={props.gradeQuiz}>Submit Quiz</button>
     </div>
     );
 }
