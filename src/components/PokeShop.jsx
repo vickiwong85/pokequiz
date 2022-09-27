@@ -9,6 +9,7 @@ const PokeShop = (props) => {
       <select onChange={props.changeBall}>
         <option value="Poké Ball">Poké ball $10</option>
         <option value="Great Ball">Great ball $20</option>
+        <option value="Ultra Ball">Ultra ball $30</option>
         <option value="Master Ball">Master ball $40</option>
       </select>
       <button onClick={props.purchase}>Purchase</button>

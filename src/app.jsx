@@ -107,6 +107,10 @@ const App = () => {
       alert('You do not have enough PokéDollars to buy this!')
       return;
     }
+    if (money < 30 && ball === 'Ultra Ball') {
+      alert('You do not have enough PokéDollars to buy this!')
+      return;
+    }
     if (money < 40 && ball === 'Master Ball') {
       alert('You do not have enough PokéDollars to buy this!')
       return;
@@ -115,19 +119,33 @@ const App = () => {
     console.log(money);
     setPokeDollars(money);
 
+    // if (ball === 'Poké Ball') {
+    //   var id = Math.floor(Math.random() * (950));
+    // } else if (ball === 'Great Ball') {
+    //   var id = Math.floor(Math.random() * (950));
+    // } else if (ball === 'Master Ball') {
+    //   var array = ['144', '145', '146', '149', '150', '151', '243', '244', '245', '249', '250', '251', '257', '260', '377', '378', '379', '380', '381', '382', '383', '384', '385', '386', '480', '481', '482', '483', '484', '485', '486', '487', '488', '489', '490', '491', '491', '493', '494', '638', '639', '640', '641', '642', '643', '644', '645', '646', '647', '648', '649', '718', '719', '716', '717', '720', '746', '791', '792', '800', '890', '800', '888', '889', ]
+    //   var id = array[Math.floor(Math.random() * array.length)];
+    // }
+
+    var path = '';
     if (ball === 'Poké Ball') {
-      var id = Math.floor(Math.random() * (950));
-    } else if (ball === 'Great Ball') {
-      var id = Math.floor(Math.random() * (950));
-    } else if (ball === 'Master Ball') {
-      var array = ['144', '145', '146', '149', '150', '151', '243', '244', '245', '249', '250', '251', '257', '260', '377', '378', '379', '380', '381', '382', '383', '384', '385', '386', '480', '481', '482', '483', '484', '485', '486', '487', '488', '489', '490', '491', '491', '493', '494', '638', '639', '640', '641', '642', '643', '644', '645', '646', '647', '648', '649', '718', '719', '716', '717', '720', '746', '791', '792', '800', '890', '800', '888', '889', ]
-      var id = array[Math.floor(Math.random() * array.length)];
+      path = 'pokeball';
+    }
+    if (ball === 'Great Ball') {
+      path = 'greatball';
+    }
+    if (ball === 'Ultra Ball') {
+      path = 'ultraball';
+    }
+    if (ball === 'Master Ball') {
+      path = 'masterball';
     }
 
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+    axios.get(`/pokemon/${path}/`)
       .then((data) => {
-        console.log(data.data.name);
-        var pokemon = data.data.name;
+        console.log(data.data);
+        var pokemon = data.data.identifier.charAt(0).toUpperCase() + data.data.identifier.slice(1);
         alert(`You bought a ${ball}! When you open the ${ball}... a wild ${pokemon} jumps out!`);
         var list = pokemonlist.slice();
         list.push(pokemon);
@@ -144,6 +162,8 @@ const App = () => {
       setPrice(10);
     } else if (event.currentTarget.value === 'Great Ball') {
       setPrice(20);
+    } else if (event.currentTarget.value === 'Ultra Ball') {
+      setPrice(30);
     } else if (event.currentTarget.value === 'Master Ball') {
       setPrice(40);
     }
