@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/vickiwong85/pokequiz#readme",
   "dependencies": {
+    "@mui/material": "^5.10.7",
+    "@mui/styled-engine-sc": "^5.10.6",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
@@ -31,7 +33,8 @@
     "morgan": "^1.10.0",
     "pg": "^8.8.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

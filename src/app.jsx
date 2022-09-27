@@ -5,6 +5,7 @@ import Quiz from './components/Quiz.jsx';
 import PokeShop from './components/PokeShop.jsx';
 import MyPokemon from './components/MyPokemon.jsx';
 import FindQuiz from './components/FindQuiz.jsx';
+import Grid from '@mui/material/Grid';
 
 
 const App = () => {
@@ -219,16 +220,24 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Grid container spacing={0}>
+      <Grid xs={7}>
       <h1>PokéQuiz</h1>
       <h4>Gatcha catch them all!</h4>
-      <h5>Welcome, {username}!</h5>
-      <h6>PokéDollars: {PokeDollars}</h6>
-      <FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
-      {questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
-      <PokeShop purchase={purchase} changeBall={changeBall}/>
-      <MyPokemon pokemonlist={pokemonlist}/>
-    </div>
+      </Grid>
+      <Grid xs={4}>
+      <h4>Welcome, {username}!</h4>
+      <h5>PokéDollars: {PokeDollars}</h5>
+      </Grid>
+      <Grid xs={7}>
+        <FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
+        {questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
+      </Grid>
+      <Grid xs={4}>
+        <PokeShop purchase={purchase} changeBall={changeBall}/>
+        <MyPokemon pokemonlist={pokemonlist}/>
+      </Grid>
+    </Grid>
     );
 }
 
