@@ -8,6 +8,7 @@ const MyPokemon = (props) => {
   return (
     <div>
       <h1>My Pokémon</h1>
+      <p>{props.count} total</p>
       {props.pokemonlist && props.pokemonlist.map((pokemon, index) => (
         <Pokemon key={index} pokemon={pokemon}/>
       ))}

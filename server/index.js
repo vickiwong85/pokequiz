@@ -8,7 +8,7 @@ var cors = require('cors');
 
 // Logging and parsing
 app.use(morgan('dev'));
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 // Router
@@ -18,10 +18,7 @@ var router = require('./routes.js');
 app.use(express.static('./public'));
 
 // Set up our routes
-app.use('/pokemon', router);
-// app.get('/pokemon/pokeball', function (req, res) {
-//   console.log('here')
-// })
+app.use('', router);
 
 app.listen(3000);
 console.log('Listening on port 3000');

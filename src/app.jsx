@@ -1,53 +1,111 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { createRoot } from 'react-dom/client';
+import Login from './components/Login/Login.jsx';
 import Quiz from './components/Quiz.jsx';
 import PokeShop from './components/PokeShop.jsx';
 import MyPokemon from './components/MyPokemon.jsx';
 import FindQuiz from './components/FindQuiz.jsx';
+import Leaderboard from './components/Leaderboard.jsx';
 import Grid from '@mui/material/Grid';
 
 
 const App = () => {
   const [username, setUsername] = useState();
+  const [id, setId] = useState();
+  const [password, setPassword] = useState();
   const [category, setCategory] = useState('9');
   const [difficulty, setDifficulty] = useState('easy');
   const [questions, setQuestions] = useState([]);
   const [answersChosen, setAnswersChosen] = useState({});
   const [correctAnswers, setCorrectAnswers] = useState({});
-  const [PokeDollars, setPokeDollars] = useState(100);
+  const [PokeDollars, setPokeDollars] = useState(50);
   const [incorrectQuestions, setIncorrect] = useState('');
   const [ball, setBall] = useState('Poké Ball');
   const [price, setPrice] = useState(10);
   const [pokemonlist, setPokemonList] = useState([]);
   const [changeUser, setChange] = useState();
   const [pokemon, setPokemon] = useState();
+  const [loggedIn, setLoggedIn] = useState();
+  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    var user = localStorage.getItem("username");
-    console.log(user);
+  if(!loggedIn) {
+    return <Login setLoggedIn={setLoggedIn} handleLogin={handleLogin} handleCreate={handleCreate} setUsername={setUsername} setPassword={setPassword}/>
+  }
 
-    if (user === null) {
-      var user = prompt('What is your username?');
-      setUsername(user);
-      localStorage.setItem("username", user)
-    } else {
-      setUsername(user);
-    }
+  function handleLogin(event) {
+    event.preventDefault();
+    var params = {};
+    params.username = username;
+    params.password = password;
+    axios.get('/login', { params })
+      .then((data) => {
+        if (data.data.length === 0) {
+          alert('Wrong username or password!')
+          setLoggedIn(false);
+        }
+        console.log(data);
+        setPokeDollars(data.data[0].pokedollars);
+        setCount(data.data[0].pokemoncount);
+        setId(data.data[0].id)
+        setLoggedIn(true);
+        var params = {};
+        params.userid = data.data[0].id;
+        var list = [];
+        axios.get('/list', { params })
+          .then((results) => {
+            var ids = results.data.pokeids;
+            var obj = {};
+            var currentPoke = ''
+            ids.forEach((id) => {
+              axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+                .then((result) => {
+                  var pokemonInfo = {};
+                  pokemonInfo.name = result.data.forms[0].name.charAt(0).toUpperCase() + result.data.forms[0].name.slice(1);;
+                  pokemonInfo.photo = result.data.sprites.front_default;
+                  pokemonInfo.weight = result.data.weight;
+                  pokemonInfo.height = result.data.height;
+                  pokemonInfo.baseExp = result.data.base_experience;
+                  list.push(pokemonInfo);
+                  setPokemonList(list);
+                })
+                .catch((err) => {
+                  console.log(err);
+                })
+            })
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .then(() => {
+          })
+      })
+    .catch((err) => {
+      console.log(err);
+    })
 
-    var money = localStorage.getItem("pokedollars");
+  }
 
-    if (money === null) {
-      setPokeDollars(50);
-    } else {
-      setPokeDollars(localStorage.getItem("pokedollars"));
-    }
 
-    if (localStorage.getItem("pokemonlist") !== null) {
-      setPokemonList(JSON.parse(localStorage.getItem("pokemonlist")));
-    }
 
-  }, [changeUser])
+  function handleLogout (event) {
+    event.preventDefault();
+    setLoggedIn(false);
+  }
+  function handleCreate (event) {
+    event.preventDefault();
+    setLoggedIn(true);
+    var params = {};
+    params.username = username;
+    params.password = password;
+    axios.post('/login', { params } )
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
 
   function changeCategory (event) {
     setCategory(event.currentTarget.value);
@@ -117,7 +175,16 @@ const App = () => {
     var currentPokeDollars = PokeDollars;
     currentPokeDollars+=numberCorrect;
     setPokeDollars(currentPokeDollars);
-    localStorage.setItem("pokedollars", currentPokeDollars);
+    var params = {};
+    params.pokedollars = currentPokeDollars;
+    params.username = username;
+    axios.patch('/pokedollars', { params } )
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     setQuestions([]);
   }
 
@@ -149,16 +216,16 @@ const App = () => {
     money = money - price;
     console.log(money);
     setPokeDollars(money);
-    localStorage.setItem("pokedollars", money);
-
-    // if (ball === 'Poké Ball') {
-    //   var id = Math.floor(Math.random() * (950));
-    // } else if (ball === 'Great Ball') {
-    //   var id = Math.floor(Math.random() * (950));
-    // } else if (ball === 'Master Ball') {
-    //   var array = ['144', '145', '146', '149', '150', '151', '243', '244', '245', '249', '250', '251', '257', '260', '377', '378', '379', '380', '381', '382', '383', '384', '385', '386', '480', '481', '482', '483', '484', '485', '486', '487', '488', '489', '490', '491', '491', '493', '494', '638', '639', '640', '641', '642', '643', '644', '645', '646', '647', '648', '649', '718', '719', '716', '717', '720', '746', '791', '792', '800', '890', '800', '888', '889', ]
-    //   var id = array[Math.floor(Math.random() * array.length)];
-    // }
+    var params = {};
+    params.pokedollars = money;
+    params.username = username;
+    axios.patch('/pokedollars', { params } )
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
 
     var path = '';
     if (ball === 'Poké Ball') {
@@ -195,15 +262,33 @@ const App = () => {
             list.push(pokemonInfo);
             console.log(list);
             setPokemonList(list);
-            localStorage.setItem("pokemonlist", JSON.stringify(list));
+            // localStorage.setItem("pokemonlist", JSON.stringify(list));
+            setCount(list.length);
+            var params = {};
+            params.count = list.length;
+            params.username = username;
+            axios.patch('/count', { params } )
+                  .then((data) => {
+                    console.log(data);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  })
+            })
+            var params = {};
+            params.userid = id;
+            params.pokeid = data.data.id;
+              axios.post('/add', { params})
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                console.log(err);
+              })
           })
           .catch((err) => {
             console.log(err);
           })
-      })
-      .catch(err => {
-        console.log(err);
-      })
   }
 
   function changeBall (event) {
@@ -228,14 +313,16 @@ const App = () => {
       <Grid xs={4}>
       <h4>Welcome, {username}!</h4>
       <h5>PokéDollars: {PokeDollars}</h5>
+      <button onClick={handleLogout}>Log Out</button>
       </Grid>
       <Grid xs={7}>
         <FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
         {questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
       </Grid>
       <Grid xs={4}>
+        <Leaderboard/>
         <PokeShop purchase={purchase} changeBall={changeBall}/>
-        <MyPokemon pokemonlist={pokemonlist}/>
+        <MyPokemon pokemonlist={pokemonlist} count={count}/>
       </Grid>
     </Grid>
     );
