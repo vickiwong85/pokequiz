@@ -28,6 +28,7 @@ const App = () => {
   const [pokemon, setPokemon] = useState();
   const [loggedIn, setLoggedIn] = useState();
   const [count, setCount] = useState(0);
+  const [leaders, setLeaders] = useState([]);
 
   if(!loggedIn) {
     return <Login setLoggedIn={setLoggedIn} handleLogin={handleLogin} handleCreate={handleCreate} setUsername={setUsername} setPassword={setPassword}/>
@@ -82,6 +83,19 @@ const App = () => {
       })
     .catch((err) => {
       console.log(err);
+    })
+    .then(() => {
+      axios.get('/leaderboard')
+        .then((result) => {
+          console.log('leaders', result);
+          setLeaders(result.data);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    })
+    .catch((err) => {
+      console.log(err)
     })
 
   }
@@ -196,6 +210,7 @@ const App = () => {
   }
 
   function purchase (event) {
+    event.preventDefault();
     var money = PokeDollars;
     if (money < 10 && ball === 'Poké Ball') {
       alert('You do not have enough PokéDollars to buy this!')
@@ -320,7 +335,7 @@ const App = () => {
         {questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
       </Grid>
       <Grid xs={4}>
-        <Leaderboard/>
+        {leaders.length > 1 && <Leaderboard leaders={leaders}/>}
         <PokeShop purchase={purchase} changeBall={changeBall}/>
         <MyPokemon pokemonlist={pokemonlist} count={count}/>
       </Grid>

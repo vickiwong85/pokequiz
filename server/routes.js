@@ -12,5 +12,6 @@ router.get('/pokemon/pokeball', controller.pokemon.getPoke)
 router.get('/pokemon/greatball', controller.pokemon.getGreat)
 router.get('/pokemon/ultraball', controller.pokemon.getUltra)
 router.get('/pokemon/masterball', controller.pokemon.getMaster)
+router.get('/leaderboard', controller.pokemon.leaders)
 
 module.exports = router;

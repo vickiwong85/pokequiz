@@ -100,5 +100,14 @@ module.exports = {
     .catch((err) => {
       console.log(err)
     })
+  },
+  leaders: function (req, res) {
+    return models.pokemon.leaders()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 };

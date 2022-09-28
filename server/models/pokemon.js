@@ -133,6 +133,20 @@ module.exports = {
       .catch((err) => {
         console.log(err)
       })
+  },
+  leaders: function (callback) {
+    const query = {
+      text: 'SELECT username, pokemoncount from users order by pokemoncount desc limit 10'
+    }
+    return db.query(query)
+      .then(queryResult => {
+        console.log(queryResult.rows);
+        console.log('got leaders');
+        return queryResult.rows;
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 }
 
