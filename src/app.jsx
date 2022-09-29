@@ -80,6 +80,7 @@ const App = () => {
   const [password, setPassword] = useState();
   const [category, setCategory] = useState('9');
   const [difficulty, setDifficulty] = useState('easy');
+  const [amount, setAmount] = useState('1');
   const [questions, setQuestions] = useState([]);
   const [answersChosen, setAnswersChosen] = useState({});
   const [correctAnswers, setCorrectAnswers] = useState({});
@@ -229,9 +230,17 @@ const App = () => {
     setDifficulty(event.currentTarget.value);
   }
 
+  function changeAmount (event) {
+    setAmount(event.currentTarget.value);
+  }
+
+  function changeDifficulty (event) {
+    setDifficulty(event.currentTarget.value);
+  }
+
   function handleFind (event) {
     event.preventDefault();
-    axios.get(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`)
+    axios.get(`https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`)
       .then((data) => {
         console.log(data.data.results);
         setQuestions(data.data.results);
@@ -479,10 +488,10 @@ const App = () => {
       </AppBar>
       <RowContainer>
       <RowContainer>
-        {showQuiz && <React.Fragment><FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
+        {showQuiz && <React.Fragment><FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty} changeAmount={changeAmount}/>
         <Div></Div></React.Fragment>
         }
-        {showQuiz && questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer} handleOpen={handleOpen}/>}
+        {showQuiz && questions.length > 0 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer} handleOpen={handleOpen}/>}
           {showQuiz && message && <Modal
             open={open}
             onClose={handleClose}

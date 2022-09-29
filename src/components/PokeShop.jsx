@@ -20,6 +20,9 @@ color: #FFDE00;
 const Form = styled.form`
 width: 250px;
 `
+const Div = styled.div`
+padding: 20px;
+`
 
 const PokeShop = (props) => {
 
@@ -29,17 +32,20 @@ const PokeShop = (props) => {
       <h5>What would you like to buy?</h5>
       <Form>
         {/* <select onChange={props.changeBall}> */}
-
-          <label><input type="radio" value="Poké Ball" onClick={props.changeBall} name="ball" required/>Poké ball (10 PD)</label><img src={pokeball}></img>
+        <img src={pokeball}></img>
+          <label><input type="radio" value="Poké Ball" onClick={props.changeBall} name="ball" required/>Poké ball (10 PD)</label>
           <br></br>
-
-          <label><input type="radio" value="Great Ball" onClick={props.changeBall} name="ball" required/>Great ball (20 PD)</label><img src={greatball}></img>
+          <Div></Div>
+          <img src={greatball}></img>
+          <label><input type="radio" value="Great Ball" onClick={props.changeBall} name="ball" required/>Great ball (20 PD)</label>
           <br></br>
-
-          <label><input type="radio" value="Ultra Ball" onClick={props.changeBall} name="ball" required/>Ultra ball (30 PD)</label><img src={ultraball}></img>
+          <Div></Div>
+          <img src={ultraball}></img>
+          <label><input type="radio" value="Ultra Ball" onClick={props.changeBall} name="ball" required/>Ultra ball (30 PD)</label>
           <br></br>
-
-          <label><input type="radio" value="Master Ball" onClick={props.changeBall} name="ball" required/>Master ball (40 PD)</label><img src={masterball}></img>
+          <Div></Div>
+          <img src={masterball}></img>
+          <label><input type="radio" value="Master Ball" onClick={props.changeBall} name="ball" required/>Master ball (40 PD)</label>
           <br></br>
           {/* <option value="Great Ball">Great ball $20</option>
           <option value="Ultra Ball">Ultra ball $30</option>
