@@ -43,13 +43,13 @@ function Pokemon (props) {
         <strong>{props.pokemon.name}</strong>
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-        base experience: {props.pokemon.baseExp}
+        Experience: {props.pokemon.baseExp}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-        height: {props.pokemon.height} decimeters
+        Height: {props.pokemon.height} decimeters
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-        weight: {props.pokemon.weight} hectograms
+        Weight: {props.pokemon.weight} hectograms
         </Typography>
       </Box>
     </Modal>

@@ -9,7 +9,7 @@ background: #3B4CCA;
 font-family: 'Poppins', sans-serif;
 border-radius: 10px;
 margin-left: 400px;
-color: white
+color: white;
 &:hover {
     background-color: #130281
   }

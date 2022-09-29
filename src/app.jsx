@@ -15,6 +15,22 @@ import FindQuiz from './components/FindQuiz.jsx';
 import Leaderboard from './components/Leaderboard.jsx';
 import Grid from '@mui/material/Grid';
 import { Paper, AppBar, Toolbar } from "@material-ui/core";
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  'border-radius': '50px',
+  boxShadow: 24,
+  p: 4,
+};
 
 const RowContainer = styled.div`
   display: flex;
@@ -81,6 +97,16 @@ const App = () => {
   const [showLeaders, setShowLeader] = useState(false);
   const [showPokeShop, setShowPokeShop] = useState(false);
   const [showPokemon, setShowPokemon] = useState(false);
+  const [message, setMessage] = useState();
+  const [open, setOpen] = React.useState(false);
+  const [openReceipt, setOpenReceipt] = React.useState(false);
+  const [receipt, setReceipt] = useState();
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleOpenReceipt = () => setOpenReceipt(true);
+  const handleCloseReceipt = () => setOpenReceipt(false);
 
   if(!loggedIn) {
     return <div><Login setLoggedIn={setLoggedIn} handleLogin={handleLogin} handleCreate={handleCreate} setUsername={setUsername} setPassword={setPassword}/></div>
@@ -173,7 +199,18 @@ const App = () => {
         .then((result) => {
           console.log('leaders', result);
           setLeaders(result.data);
-        })
+          axios.get('/login', { params })
+            .then((data) => {
+              console.log(data);
+              setPokeDollars(data.data[0].pokedollars);
+              setCount(data.data[0].pokemoncount);
+              setId(data.data[0].id);
+              setPokemonList([]);
+              setLoggedIn(true);
+              })
+            .catch((err) => {
+              console.log(err)
+            })
         .catch((err) => {
           console.log(err)
         })
@@ -181,6 +218,7 @@ const App = () => {
       .catch((err) => {
         console.log(err);
       })
+    })
   }
 
   function changeCategory (event) {
@@ -219,38 +257,40 @@ const App = () => {
         questionsIncorrect.push(index);
       }
     }
-    var string = '';
-    if (questionsIncorrect.length === 0) {
-      alert(`You got ${numberCorrect}/${questions.length} correct! ${numberCorrect} PokeDollars have been added to your wallet.`)
-    } else if (questionsIncorrect.length === 1) {
-      var actual = Number(questionsIncorrect[0]) + 1;
-      string += actual.toString();
-      alert(`You got ${numberCorrect}/${questions.length} correct! ${numberCorrect} PokeDollars have been added to your wallet. Your answer to question ${string} was incorrect.`);
-    } else if (questionsIncorrect.length === 2) {
-      for (var question of questionsIncorrect) {
-        var actual = Number(question) + 1;
-        if (actual === questionsIncorrect.length + 1) {
-          string += ` and ${actual.toString()}`
-        } else {
-          string += actual.toString();
-        }
-      }
-      alert(`You got ${numberCorrect}/${questions.length} correct! ${numberCorrect} PokeDollars have been added to your wallet. Your answer to questions ${string} were incorrect.`)
-    } else if (questionsIncorrect.length > 2){
-      for (var question of questionsIncorrect) {
-        var actual = Number(question) + 1;
-        console.log(actual);
-        if (actual === questionsIncorrect.length ) {
-          string += ` and ${actual.toString()}`
-        } else {
-          string += actual.toString() + ',';
-        }
-      }
-      alert(`You got ${numberCorrect}/${questions.length} correct! ${numberCorrect} PokeDollar(s) have been added to your wallet.`)
+    var income = numberCorrect * 5;
+    // var string = '';
+    // if (questionsIncorrect.length === 0) {
+    //   alert(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollar(s) have been added to your wallet.`)
+    // } else if (questionsIncorrect.length === 1) {
+    //   var actual = Number(questionsIncorrect[0]) + 1;
+    //   string += actual.toString();
+      setMessage(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollars have been added to your wallet.`);
+      handleOpen();
+    // } else if (questionsIncorrect.length === 2) {
+    //   for (var question of questionsIncorrect) {
+    //     var actual = Number(question) + 1;
+    //     if (actual === questionsIncorrect.length + 1) {
+    //       string += ` and ${actual.toString()}`
+    //     } else {
+    //       string += actual.toString();
+    //     }
+    //   }
+    //   alert(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollars have been added to your wallet. Your answer to questions ${string} were incorrect.`)
+    // } else if (questionsIncorrect.length > 2){
+    //   for (var question of questionsIncorrect) {
+    //     var actual = Number(question) + 1;
+    //     console.log(actual);
+    //     if (actual === questionsIncorrect.length ) {
+    //       string += ` and ${actual.toString()}`
+    //     } else {
+    //       string += actual.toString() + ',';
+    //     }
+    // //   }
+    //   alert(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollar(s) have been added to your wallet.`)
       // Your answer to questions ${string} were incorrect.
-    }
+    // }
     var currentPokeDollars = PokeDollars;
-    currentPokeDollars+=numberCorrect;
+    currentPokeDollars+=income;
     setPokeDollars(currentPokeDollars);
     var params = {};
     params.pokedollars = currentPokeDollars;
@@ -326,7 +366,9 @@ const App = () => {
         currentPoke = data.data;
         var poke = data.data.identifier.charAt(0).toUpperCase() + data.data.identifier.slice(1);
 
-        alert(`You bought a ${ball}! When you open the ${ball}... a wild ${poke} jumps out!`);
+        setReceipt(`You bought a ${ball}. When you open the ${ball}... a wild ${poke} jumps out!`);
+        console.log(receipt);
+        handleOpenReceipt();
 
         axios.get(`https://pokeapi.co/api/v2/pokemon/${data.data.id}`)
           .then((result) => {
@@ -338,6 +380,7 @@ const App = () => {
             pokemonInfo.weight = currentPoke.weight;
             pokemonInfo.height = currentPoke.height;
             pokemonInfo.baseExp = currentPoke.base_experience;
+            setPokemon(pokemonInfo);
             var list = pokemonlist.slice();
             list.push(pokemonInfo);
             console.log(list);
@@ -423,7 +466,7 @@ const App = () => {
         </Grid>
         <Grid item justifyContent="right">
         <H4>Welcome, {username}!</H4>
-        <H4>PokéDollars (PD): {PokeDollars}</H4>
+        <H4>You have {PokeDollars} PokéDollars (PD)</H4>
         </Grid>
         <Grid item>
         <Button onClick={handleQuizzes}>Quizzes</Button>
@@ -439,11 +482,40 @@ const App = () => {
         {showQuiz && <React.Fragment><FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
         <Div></Div></React.Fragment>
         }
-        {showQuiz && questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
+        {showQuiz && questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer} handleOpen={handleOpen}/>}
+          {showQuiz && message && <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            alignitems="center"
+            textAlign= "center"
+          >
+            <Box sx={style} alignitems="center" textAlign="center">
+              <Typography id="modal-modal-title" variant="h6" component="h2" textAlign="center">
+              <strong>{message}</strong>
+              </Typography>
+            </Box>
+          </Modal>}
       </RowContainer>
       <ColumnContainer>
         {showLeaders && leaders.length > 1 && <RowContainer><Div></Div><Leaderboard leaders={leaders}/></RowContainer>}
-        {showPokeShop&& <PokeShop purchase={purchase} changeBall={changeBall}/>}
+        {showPokeShop&& <PokeShop purchase={purchase} changeBall={changeBall} />}
+        {showPokeShop && receipt && pokemon && <Modal
+            open={openReceipt}
+            onClose={handleCloseReceipt}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            alignitems="center"
+            textAlign= "center"
+          >
+            <Box sx={style} alignitems="center" textAlign="center">
+              <Typography id="modal-modal-title" variant="h6" component="h2" textAlign="center">
+              <strong>{receipt}</strong>
+              </Typography>
+              <img src={pokemon.photo}></img>
+            </Box>
+          </Modal>}
       </ColumnContainer>
       <ColumnContainer>
       {showPokemon && pokemonlist && <MyPokemon pokemonlist={pokemonlist} count={count}/>}
