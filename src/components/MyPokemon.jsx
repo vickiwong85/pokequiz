@@ -6,7 +6,8 @@ const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
   background: #FFDE00;
-  font-family: 'Noto Sans Mono', monospace;
+  /* font-family: 'Noto Sans Mono', monospace; */
+  font-family: 'Poppins', sans-serif;
   padding: 30px;
   flex-wrap: wrap;
 `

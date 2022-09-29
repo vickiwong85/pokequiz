@@ -1,14 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
+const Select = styled.select`
+padding: 5px;
+font-family: 'Poppins', sans-serif;
+`
+
 const Button = styled.button`
 padding: 10px;
 background: #3B4CCA;
-font-family: 'Noto Sans Mono', monospace;
+/* font-family: 'Noto Sans Mono', monospace; */
+font-family: 'Poppins', sans-serif;
 border-radius: 10px;
-margin-top: 40px;
-margin-left: 320px;
-color: #FFDE00;
+margin-left: 260px;
+color: white;
 &:hover {
     background-color: #130281
   }
@@ -18,8 +23,9 @@ const FindQuiz = (props) => {
   return (
     <div>
       <h1>Find Quiz</h1>
-        <label>Category: </label>
-        <select onChange={props.changeCategory}>
+        <label>Category: </label><br></br>
+        <Select
+          onChange={props.changeCategory}>
           <option value="">Random</option>
           <option value="9" >General Knowledge</option>
           <option value="27">Animals</option>
@@ -45,14 +51,14 @@ const FindQuiz = (props) => {
           <option value="19">Science: Mathematics</option>
           <option value="21">Sports</option>
           <option value="28">Vehicles</option>
-        </select>
+        </Select>
         <br></br>
-        <label>Difficulty: </label>
-        <select onChange={props.changeDifficulty}>
+        <label>Difficulty: </label><br></br>
+        <Select onChange={props.changeDifficulty}>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
-        </select>
+        </Select>
         <br></br>
         <Button onClick={props.handleFind}>Search</Button>
     </div>

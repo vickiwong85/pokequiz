@@ -1,5 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import he from 'he';
+import styled from 'styled-components';
+
+const Div = styled.div`
+  border-radius: 10px;
+  border: solid 2px #3B4CCA;
+  padding: 30px;
+  margin-bottom: 30px;
+  /* font-family: 'Noto Sans Mono', monospace; */
+  font-family: 'Poppins', sans-serif;
+  /* background: white; */
+  /* background: #3B4CCA;
+  color: white; */
+`
 
 
 const Question = (props) => {
@@ -27,7 +40,7 @@ const Question = (props) => {
 
 
   return (
-    <div>
+    <Div>
       {props.question && <div>
         <h4><strong>Question {props.number}</strong></h4>
         <h5>{question}</h5>
@@ -38,7 +51,7 @@ const Question = (props) => {
         <label><input type="radio" name="option" onClick={props.chooseAnswer} value={answers[3]} id={props.index}/>{answers[3]}</label><br></br>
         </form>
         </div>}
-    </div>
+    </Div>
     );
 }
 

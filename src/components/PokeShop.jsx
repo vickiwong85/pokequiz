@@ -8,7 +8,7 @@ import styled from 'styled-components';
 const Button = styled.button`
 padding: 10px;
 background: #3B4CCA;
-font-family: 'Noto Sans Mono', monospace;
+font-family: 'Poppins', sans-serif;
 border-radius: 10px;
 margin-top: 40px;
 margin-left: 130px;
@@ -17,6 +17,9 @@ color: #FFDE00;
     background-color: #130281
   }
 `
+const Form = styled.form`
+width: 250px;
+`
 
 const PokeShop = (props) => {
 
@@ -24,26 +27,26 @@ const PokeShop = (props) => {
     <div>
       <h1>Pokémon Shop</h1>
       <h5>What would you like to buy?</h5>
-      <form>
+      <Form>
         {/* <select onChange={props.changeBall}> */}
-          <img src={pokeball}></img>
-          <label><input type="radio" value="Poké Ball" onClick={props.changeBall} name="ball" required/>Poké ball (10 PD)</label>
+
+          <label><input type="radio" value="Poké Ball" onClick={props.changeBall} name="ball" required/>Poké ball (10 PD)</label><img src={pokeball}></img>
           <br></br>
-          <img src={greatball}></img>
-          <label><input type="radio" value="Great Ball" onClick={props.changeBall} name="ball" required/>Great ball (20 PD)</label>
+
+          <label><input type="radio" value="Great Ball" onClick={props.changeBall} name="ball" required/>Great ball (20 PD)</label><img src={greatball}></img>
           <br></br>
-          <img src={ultraball}></img>
-          <label><input type="radio" value="Ultra Ball" onClick={props.changeBall} name="ball" required/>Ultra ball (30 PD)</label>
+
+          <label><input type="radio" value="Ultra Ball" onClick={props.changeBall} name="ball" required/>Ultra ball (30 PD)</label><img src={ultraball}></img>
           <br></br>
-          <img src={masterball}></img>
-          <label><input type="radio" value="Master Ball" onClick={props.changeBall} name="ball" required/>Master ball (40 PD)</label>
+
+          <label><input type="radio" value="Master Ball" onClick={props.changeBall} name="ball" required/>Master ball (40 PD)</label><img src={masterball}></img>
           <br></br>
           {/* <option value="Great Ball">Great ball $20</option>
           <option value="Ultra Ball">Ultra ball $30</option>
           <option value="Master Ball">Master ball $40</option> */}
         {/* </select> */}
         <Button onClick={props.purchase}>Purchase</Button>
-      </form>
+      </Form>
     </div>
     );
 }

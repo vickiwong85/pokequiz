@@ -7,17 +7,22 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import styled from 'styled-components';
+
+const Title = styled.h1`
+text-align: center;
+`
 
 const Leaderboard = (props) => {
   return (
     <div>
-    <h1>Leaderboard</h1>
+    <Title>Leaderboard</Title>
     <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 150 }} size="small" >
+    <Table sx={{ minWidth: 450 }} size="small" >
       <TableHead>
         <TableRow>
         <TableCell>Username</TableCell>
-        <TableCell align="left">Pokemon Caught</TableCell>
+        <TableCell align="center">Pokemon Caught</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

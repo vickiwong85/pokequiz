@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import pokelogo from '../../assets/pokequiz.png';
+import LoginButton from '../LoginButton.jsx';
+import LogoutButton from '../LogoutButton.jsx';
 import { Grid, Paper, AppBar, Toolbar } from "@material-ui/core";
 import styled from 'styled-components';
 
@@ -9,7 +11,7 @@ const Container = styled.div`
   justify-content: center;
   background: #FFDE00;
   font-family: 'Noto Sans Mono', monospace;
-  height: 600px;
+  height: 500px;
 `
 const FormContainer = styled.div`
   display: flex;
@@ -18,19 +20,25 @@ const FormContainer = styled.div`
   border-radius: 10px;
   border: solid 2px #3B4CCA;
   padding: 30px;
-  font-family: 'Noto Sans Mono', monospace;
+  /* font-family: 'Noto Sans Mono', monospace; */
+  font-family: 'Poppins', sans-serif;
+  /* background: white; */
+  background: #3B4CCA;
+  color: white;
 `
 const Direction = styled.h3`
-font-family: 'Noto Sans Mono', monospace;
+/* font-family: 'Noto Sans Mono', monospace; */
+font-family: 'Poppins', sans-serif;
 `
 const Button = styled.button`
 padding: 10px;
 background: #3B4CCA;
-font-family: 'Noto Sans Mono', monospace;
+/* font-family: 'Noto Sans Mono', monospace; */
+font-family: 'Poppins', sans-serif;
 border-radius: 10px;
 margin-top: 40px;
 margin-left: 130px;
-color: #FFDE00;
+color: white;
 &:hover {
     background-color: #130281
   }

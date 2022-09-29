@@ -26,8 +26,9 @@ function Pokemon (props) {
 
   return (
     <React.Fragment>
-    <Avatar sx={{ width: 56, height: 56 }} src={props.pokemon.photo} onClick={handleOpen}>
-    </Avatar>
+      <span class="bounce_button">
+    <Avatar sx={{ width: 56, height: 56 }} src={props.pokemon.photo} onClick={handleOpen} >
+    </Avatar></span>
     <Modal
       open={open}
       onClose={handleClose}

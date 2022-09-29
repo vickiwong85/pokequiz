@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Swal from 'sweetalert2';
+import LoginButton from './components/LoginButton.jsx';
+import LogoutButton from './components/LogoutButton.jsx';
 import axios from 'axios';
 import styled from 'styled-components';
 import { createRoot } from 'react-dom/client';
@@ -17,31 +20,42 @@ const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
   background: #FFDE00;
-  font-family: 'Noto Sans Mono', monospace;
+  /* font-family: 'Noto Sans Mono', monospace; */
+  font-family: 'Poppins', sans-serif;
   padding: 30px;
+  align-content: space-evenly;
 `
 
 const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   background: #FFDE00;
-  font-family: 'Noto Sans Mono', monospace;
-  /* height: 600px; */
+  /* font-family: 'Noto Sans Mono', monospace; */
+  font-family: 'Poppins', sans-serif;
+  align-content: space-evenly;
   padding: 30px;
 `
 
 const Button = styled.button`
 padding: 10px;
 background: #3B4CCA;
-font-family: 'Noto Sans Mono', monospace;
+/* font-family: 'Noto Sans Mono', monospace; */
+font-family: 'Poppins', sans-serif;
 border-radius: 10px;
 margin-top: 40px;
+margin-bottom: 30px;
 margin-left: 130px;
-color: #FFDE00;
+color: white;
 &:hover {
     background-color: #130281
   }
+`
+const Div = styled.div`
+padding: 60px;
+`
+const H4 = styled.h3`
+font-family: 'Poppins', sans-serif;
+padding-top: 40px;
 `
 
 const App = () => {
@@ -69,7 +83,7 @@ const App = () => {
   const [showPokemon, setShowPokemon] = useState(false);
 
   if(!loggedIn) {
-    return <Login setLoggedIn={setLoggedIn} handleLogin={handleLogin} handleCreate={handleCreate} setUsername={setUsername} setPassword={setPassword}/>
+    return <div><Login setLoggedIn={setLoggedIn} handleLogin={handleLogin} handleCreate={handleCreate} setUsername={setUsername} setPassword={setPassword}/></div>
   }
 
   function handleLogin(event) {
@@ -232,7 +246,8 @@ const App = () => {
           string += actual.toString() + ',';
         }
       }
-      alert(`You got ${numberCorrect}/${questions.length} correct! ${numberCorrect} PokeDollar(s) have been added to your wallet. Your answer to questions ${string} were incorrect.`)
+      alert(`You got ${numberCorrect}/${questions.length} correct! ${numberCorrect} PokeDollar(s) have been added to your wallet.`)
+      // Your answer to questions ${string} were incorrect.
     }
     var currentPokeDollars = PokeDollars;
     currentPokeDollars+=numberCorrect;
@@ -310,7 +325,9 @@ const App = () => {
         console.log(data.data);
         currentPoke = data.data;
         var poke = data.data.identifier.charAt(0).toUpperCase() + data.data.identifier.slice(1);
+
         alert(`You bought a ${ball}! When you open the ${ball}... a wild ${poke} jumps out!`);
+
         axios.get(`https://pokeapi.co/api/v2/pokemon/${data.data.id}`)
           .then((result) => {
             console.log(result.data.forms[0].name);
@@ -405,13 +422,13 @@ const App = () => {
         <img src={pokelogo} onClick={handleBuy}></img>
         </Grid>
         <Grid item justifyContent="right">
-        <h4>Welcome, {username}!</h4>
-        <h5>PokéDollars (PD): {PokeDollars}</h5>
+        <H4>Welcome, {username}!</H4>
+        <H4>PokéDollars (PD): {PokeDollars}</H4>
         </Grid>
         <Grid item>
         <Button onClick={handleQuizzes}>Quizzes</Button>
         <Button onClick={handleLeaders}>Leaderboard</Button>
-        <Button onClick={handleBuy}>Buy Pokémon</Button>
+        <Button onClick={handleBuy}>Pokémon</Button>
         <Button onClick={handleLogout}>Log Out</Button>
         </Grid>
         </Grid>
@@ -419,11 +436,13 @@ const App = () => {
       </AppBar>
       <RowContainer>
       <RowContainer>
-        {showQuiz && <FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>}
+        {showQuiz && <React.Fragment><FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
+        <Div></Div></React.Fragment>
+        }
         {showQuiz && questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
       </RowContainer>
       <ColumnContainer>
-        {showLeaders && leaders.length > 1 && <Leaderboard leaders={leaders}/>}
+        {showLeaders && leaders.length > 1 && <RowContainer><Div></Div><Leaderboard leaders={leaders}/></RowContainer>}
         {showPokeShop&& <PokeShop purchase={purchase} changeBall={changeBall}/>}
       </ColumnContainer>
       <ColumnContainer>
@@ -433,6 +452,7 @@ const App = () => {
       </div>
     );
 }
+
 
 
 export default App;
