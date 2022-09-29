@@ -3,15 +3,15 @@ import he from 'he';
 import styled from 'styled-components';
 
 const Div = styled.div`
-  border-radius: 10px;
+  /* border-radius: 10px; */
   border: solid 2px #3B4CCA;
   padding: 30px;
   margin-bottom: 30px;
   /* font-family: 'Noto Sans Mono', monospace; */
   font-family: 'Poppins', sans-serif;
   /* background: white; */
-  /* background: #3B4CCA;
-  color: white; */
+  background: #3B4CCA;
+  color: white;
 `
 
 

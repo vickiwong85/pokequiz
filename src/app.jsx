@@ -29,7 +29,7 @@ const style = {
   border: '2px solid #000',
   'border-radius': '50px',
   boxShadow: 24,
-  p: 4,
+  p: 4
 };
 
 const RowContainer = styled.div`
@@ -67,11 +67,12 @@ color: white;
   }
 `
 const Div = styled.div`
-padding: 60px;
+padding: 30px;
 `
 const H4 = styled.h3`
 font-family: 'Poppins', sans-serif;
 padding-top: 40px;
+padding-left: 20px;
 `
 
 const App = () => {
@@ -508,7 +509,7 @@ const App = () => {
           </Modal>}
       </RowContainer>
       <ColumnContainer>
-        {showLeaders && leaders.length > 1 && <RowContainer><Div></Div><Leaderboard leaders={leaders}/></RowContainer>}
+        {showLeaders && leaders.length > 1 && <RowContainer><Leaderboard leaders={leaders}/></RowContainer>}
         {showPokeShop&& <PokeShop purchase={purchase} changeBall={changeBall} />}
         {showPokeShop && receipt && pokemon && <Modal
             open={openReceipt}

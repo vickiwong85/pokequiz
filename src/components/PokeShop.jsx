@@ -23,11 +23,23 @@ width: 250px;
 const Div = styled.div`
 padding: 20px;
 `
+const ODiv = styled.div`
+  /* border-radius: 10px; */
+  border-radius: 10px;
+  border: solid 2px white;
+  padding: 20px;
+  margin-bottom: 30px;
+  /* font-family: 'Noto Sans Mono', monospace; */
+  font-family: 'Poppins', sans-serif;
+  background: white;
+  /* background: #3B4CCA; */
+  /* color: white; */
+`
 
 const PokeShop = (props) => {
 
   return (
-    <div>
+    <ODiv>
       <h1>Pokémon Shop</h1>
       <h5>What would you like to buy?</h5>
       <Form>
@@ -53,7 +65,7 @@ const PokeShop = (props) => {
         {/* </select> */}
         <Button onClick={props.purchase}>Purchase</Button>
       </Form>
-    </div>
+    </ODiv>
     );
 }
 

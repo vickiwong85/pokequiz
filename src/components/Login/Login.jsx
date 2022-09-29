@@ -11,7 +11,7 @@ const Container = styled.div`
   justify-content: center;
   background: #FFDE00;
   font-family: 'Noto Sans Mono', monospace;
-  height: 500px;
+  height: 700px;
 `
 const FormContainer = styled.div`
   display: flex;
@@ -25,6 +25,7 @@ const FormContainer = styled.div`
   /* background: white; */
   background: #3B4CCA;
   color: white;
+  height: 400px;
 `
 const Direction = styled.h3`
 /* font-family: 'Noto Sans Mono', monospace; */

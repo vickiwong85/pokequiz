@@ -15,11 +15,16 @@ color: white;
   }
 `
 const Div = styled.div`
-overflow: scroll;
-overflow-x:hidden;
-height: 300px;
-min-width: 400px;
+  overflow: scroll;
+  overflow-x:hidden;
+  height: 300px;
+  min-width: 400px;
+  border-radius: 10px;
+  border: solid 3px white;
+  padding: 30px;
+  background: white;
 `
+
 
 const Quiz = (props) => {
 

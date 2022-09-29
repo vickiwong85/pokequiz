@@ -12,10 +12,22 @@ import styled from 'styled-components';
 const Title = styled.h1`
 text-align: center;
 `
+const Div = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  border-radius: 10px;
+  border: solid 3px white;
+  font-family: 'Poppins', sans-serif;
+  padding: 30px;
+  background: white;
+  margin-left: 20%;
+  z-index: 10;
+`
 
 const Leaderboard = (props) => {
   return (
-    <div>
+    <Div>
     <Title>Leaderboard</Title>
     <TableContainer component={Paper}>
     <Table sx={{ minWidth: 450 }} size="small" >
@@ -35,7 +47,7 @@ const Leaderboard = (props) => {
       </TableBody>
     </Table>
     </TableContainer>
-    </div>
+    </Div>
   );
 }
 

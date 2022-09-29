@@ -20,5 +20,5 @@ app.use(express.static('./public'));
 // Set up our routes
 app.use('', router);
 
-app.listen(3000);
+app.listen(process.env.PORT);
 console.log('Listening on port 3000');

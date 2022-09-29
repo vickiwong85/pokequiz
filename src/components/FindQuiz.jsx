@@ -18,10 +18,17 @@ color: white;
     background-color: #130281
   }
 `
+const Div = styled.div`
+  border-radius: 10px;
+  border: solid 3px white;
+  font-family: 'Poppins', sans-serif;
+  padding: 30px;
+  background: white;
+`
 
 const FindQuiz = (props) => {
   return (
-    <div>
+    <Div>
       <h1>Find Quiz</h1>
         <label>Category: </label><br></br>
         <Select
@@ -74,7 +81,7 @@ const FindQuiz = (props) => {
           <option value="10">10</option>
         </Select>
         <Button onClick={props.handleFind}>Search</Button>
-    </div>
+    </Div>
     );
 }
 
