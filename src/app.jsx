@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from 'axios';
+import styled from 'styled-components';
 import { createRoot } from 'react-dom/client';
+import pokelogo from './assets/pokequiz.png';
 import Login from './components/Login/Login.jsx';
 import Quiz from './components/Quiz.jsx';
 import PokeShop from './components/PokeShop.jsx';
@@ -8,7 +11,38 @@ import MyPokemon from './components/MyPokemon.jsx';
 import FindQuiz from './components/FindQuiz.jsx';
 import Leaderboard from './components/Leaderboard.jsx';
 import Grid from '@mui/material/Grid';
+import { Paper, AppBar, Toolbar } from "@material-ui/core";
 
+const RowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  background: #FFDE00;
+  font-family: 'Noto Sans Mono', monospace;
+  padding: 30px;
+`
+
+const ColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  background: #FFDE00;
+  font-family: 'Noto Sans Mono', monospace;
+  /* height: 600px; */
+  padding: 30px;
+`
+
+const Button = styled.button`
+padding: 10px;
+background: #3B4CCA;
+font-family: 'Noto Sans Mono', monospace;
+border-radius: 10px;
+margin-top: 40px;
+margin-left: 130px;
+color: #FFDE00;
+&:hover {
+    background-color: #130281
+  }
+`
 
 const App = () => {
   const [username, setUsername] = useState();
@@ -29,6 +63,10 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState();
   const [count, setCount] = useState(0);
   const [leaders, setLeaders] = useState([]);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [showLeaders, setShowLeader] = useState(false);
+  const [showPokeShop, setShowPokeShop] = useState(false);
+  const [showPokemon, setShowPokemon] = useState(false);
 
   if(!loggedIn) {
     return <Login setLoggedIn={setLoggedIn} handleLogin={handleLogin} handleCreate={handleCreate} setUsername={setUsername} setPassword={setPassword}/>
@@ -69,6 +107,8 @@ const App = () => {
                   pokemonInfo.baseExp = result.data.base_experience;
                   list.push(pokemonInfo);
                   setPokemonList(list);
+                  setShowQuiz(true);
+                  setShowPokemon(false);
                 })
                 .catch((err) => {
                   console.log(err);
@@ -115,6 +155,14 @@ const App = () => {
     axios.post('/login', { params } )
       .then((data) => {
         console.log(data);
+        axios.get('/leaderboard')
+        .then((result) => {
+          console.log('leaders', result);
+          setLeaders(result.data);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -131,7 +179,7 @@ const App = () => {
 
   function handleFind (event) {
     event.preventDefault();
-    axios.get(`https://opentdb.com/api.php?amount=3&category=${category}&difficulty=${difficulty}&type=multiple`)
+    axios.get(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`)
       .then((data) => {
         console.log(data.data.results);
         setQuestions(data.data.results);
@@ -319,27 +367,70 @@ const App = () => {
     }
   }
 
+  function handleLeaders () {
+    axios.get('/leaderboard')
+        .then((result) => {
+          console.log('leaders', result);
+          setLeaders(result.data);
+          setShowLeader(true);
+          setShowQuiz(false);
+          setShowPokemon(false);
+          setShowPokeShop(false);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
+
+  function handleBuy() {
+    setShowLeader(false);
+    setShowQuiz(false);
+    setShowPokemon(true);
+    setShowPokeShop(true);
+  }
+
+  function handleQuizzes() {
+    setShowLeader(false);
+    setShowQuiz(true);
+    setShowPokemon(false);
+    setShowPokeShop(false);
+  }
+
   return (
-    <Grid container spacing={0}>
-      <Grid xs={7}>
-      <h1>PokéQuiz</h1>
-      <h4>Gatcha catch them all!</h4>
-      </Grid>
-      <Grid xs={4}>
-      <h4>Welcome, {username}!</h4>
-      <h5>PokéDollars: {PokeDollars}</h5>
-      <button onClick={handleLogout}>Log Out</button>
-      </Grid>
-      <Grid xs={7}>
-        <FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>
-        {questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
-      </Grid>
-      <Grid xs={4}>
-        {leaders.length > 1 && <Leaderboard leaders={leaders}/>}
-        <PokeShop purchase={purchase} changeBall={changeBall}/>
-        <MyPokemon pokemonlist={pokemonlist} count={count}/>
-      </Grid>
-    </Grid>
+    <div>
+      <AppBar position="static" alignitems="left" color="primary">
+        <Toolbar>
+        <Grid container justifyContent="left" wrap="wrap">
+        <Grid item>
+        <img src={pokelogo} onClick={handleBuy}></img>
+        </Grid>
+        <Grid item justifyContent="right">
+        <h4>Welcome, {username}!</h4>
+        <h5>PokéDollars (PD): {PokeDollars}</h5>
+        </Grid>
+        <Grid item>
+        <Button onClick={handleQuizzes}>Quizzes</Button>
+        <Button onClick={handleLeaders}>Leaderboard</Button>
+        <Button onClick={handleBuy}>Buy Pokémon</Button>
+        <Button onClick={handleLogout}>Log Out</Button>
+        </Grid>
+        </Grid>
+        </Toolbar>
+      </AppBar>
+      <RowContainer>
+      <RowContainer>
+        {showQuiz && <FindQuiz handleFind={handleFind} changeCategory={changeCategory} changeDifficulty={changeDifficulty}/>}
+        {showQuiz && questions.length > 1 && <Quiz questions={questions} gradeQuiz={gradeQuiz} chooseAnswer={chooseAnswer}/>}
+      </RowContainer>
+      <ColumnContainer>
+        {showLeaders && leaders.length > 1 && <Leaderboard leaders={leaders}/>}
+        {showPokeShop&& <PokeShop purchase={purchase} changeBall={changeBall}/>}
+      </ColumnContainer>
+      <ColumnContainer>
+      {showPokemon && pokemonlist && <MyPokemon pokemonlist={pokemonlist} count={count}/>}
+      </ColumnContainer>
+      </RowContainer>
+      </div>
     );
 }
 

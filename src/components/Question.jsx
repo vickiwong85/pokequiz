@@ -29,7 +29,7 @@ const Question = (props) => {
   return (
     <div>
       {props.question && <div>
-        <h4>Question {props.number}</h4>
+        <h4><strong>Question {props.number}</strong></h4>
         <h5>{question}</h5>
         <form>
         <label><input type="radio" name="option" onClick={props.chooseAnswer} value={answers[0]} id={props.index}/>{answers[0]}</label><br></br>

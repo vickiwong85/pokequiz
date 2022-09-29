@@ -1,4 +1,18 @@
 import React, {useState, useEffect} from 'react';
+import styled from 'styled-components';
+
+const Button = styled.button`
+padding: 10px;
+background: #3B4CCA;
+font-family: 'Noto Sans Mono', monospace;
+border-radius: 10px;
+margin-top: 40px;
+margin-left: 320px;
+color: #FFDE00;
+&:hover {
+    background-color: #130281
+  }
+`
 
 const FindQuiz = (props) => {
   return (
@@ -40,7 +54,7 @@ const FindQuiz = (props) => {
           <option value="hard">Hard</option>
         </select>
         <br></br>
-        <button onClick={props.handleFind}>Search</button>
+        <Button onClick={props.handleFind}>Search</Button>
     </div>
     );
 }

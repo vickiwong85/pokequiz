@@ -13,7 +13,7 @@ const Leaderboard = (props) => {
     <div>
     <h1>Leaderboard</h1>
     <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 650 }} size="small">
+    <Table sx={{ minWidth: 150 }} size="small" >
       <TableHead>
         <TableRow>
         <TableCell>Username</TableCell>
@@ -24,7 +24,7 @@ const Leaderboard = (props) => {
         {props.leaders.length > 1 && props.leaders.map((leader, index) => (
         <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
         <TableCell component="th" scope="row">{leader.username}</TableCell>
-        <TableCell align="left">{leader.pokemoncount}</TableCell>
+        <TableCell align="center">{leader.pokemoncount}</TableCell>
         </TableRow>
         ))}
       </TableBody>
