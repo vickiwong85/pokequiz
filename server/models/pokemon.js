@@ -21,7 +21,6 @@ module.exports = {
     }
     return db.query(query)
       .then(queryResult => {
-        console.log(queryResult);
         console.log('new account created')
       })
       .catch((err) => {
@@ -84,7 +83,6 @@ module.exports = {
     }
     return db.query(query)
       .then(queryResult => {
-        console.log(queryResult);
         console.log('dollars updated')
       })
       .catch((err) => {
@@ -98,7 +96,6 @@ module.exports = {
     }
     return db.query(query)
       .then(queryResult => {
-        console.log(queryResult);
         console.log('count updated')
       })
       .catch((err) => {
@@ -112,7 +109,6 @@ module.exports = {
     }
     return db.query(query)
       .then(queryResult => {
-        console.log(queryResult);
         console.log('pokemon added')
       })
       .catch((err) => {
@@ -126,8 +122,6 @@ module.exports = {
     }
     return db.query(query)
       .then(queryResult => {
-        console.log(queryResult.rows[0]);
-        console.log('got list of pokemon');
         return queryResult.rows[0];
       })
       .catch((err) => {
@@ -140,8 +134,6 @@ module.exports = {
     }
     return db.query(query)
       .then(queryResult => {
-        console.log(queryResult.rows);
-        console.log('got leaders');
         return queryResult.rows;
       })
       .catch((err) => {
@@ -149,11 +141,3 @@ module.exports = {
       })
   }
 }
-
-// db.query(`select id, identifier, height, weight, base_experience from pokemon where base_experience::int <= 100 and base_experience is not null order by random() limit 1`, (err, res) => {
-//   if (err) {
-//     console.log(err.stack)
-//   } else {
-//     console.log(res.rows)
-//   }
-// });

@@ -24,16 +24,12 @@ const Div = styled.div`
 padding: 20px;
 `
 const ODiv = styled.div`
-  /* border-radius: 10px; */
   border-radius: 10px;
   border: solid 2px white;
   padding: 20px;
   margin-bottom: 30px;
-  /* font-family: 'Noto Sans Mono', monospace; */
   font-family: 'Poppins', sans-serif;
   background: white;
-  /* background: #3B4CCA; */
-  /* color: white; */
 `
 
 const PokeShop = (props) => {
@@ -43,7 +39,6 @@ const PokeShop = (props) => {
       <h1>Pokémon Shop</h1>
       <h5>What would you like to buy?</h5>
       <Form>
-        {/* <select onChange={props.changeBall}> */}
         <img src={pokeball}></img>
           <label><input type="radio" value="Poké Ball" onClick={props.changeBall} name="ball" required/>Poké ball (10 PD)</label>
           <br></br>
@@ -59,10 +54,6 @@ const PokeShop = (props) => {
           <img src={masterball}></img>
           <label><input type="radio" value="Master Ball" onClick={props.changeBall} name="ball" required/>Master ball (40 PD)</label>
           <br></br>
-          {/* <option value="Great Ball">Great ball $20</option>
-          <option value="Ultra Ball">Ultra ball $30</option>
-          <option value="Master Ball">Master ball $40</option> */}
-        {/* </select> */}
         <Button onClick={props.purchase}>Purchase</Button>
       </Form>
     </ODiv>

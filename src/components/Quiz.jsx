@@ -5,7 +5,6 @@ import Question from './Question.jsx'
 const Button = styled.button`
 padding: 10px;
 background: #3B4CCA;
-/* font-family: 'Noto Sans Mono', monospace; */
 font-family: 'Poppins', sans-serif;
 border-radius: 10px;
 margin-left: 320px;

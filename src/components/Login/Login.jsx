@@ -20,21 +20,17 @@ const FormContainer = styled.div`
   border-radius: 10px;
   border: solid 2px #3B4CCA;
   padding: 30px;
-  /* font-family: 'Noto Sans Mono', monospace; */
   font-family: 'Poppins', sans-serif;
-  /* background: white; */
   background: #3B4CCA;
   color: white;
   height: 400px;
 `
 const Direction = styled.h3`
-/* font-family: 'Noto Sans Mono', monospace; */
 font-family: 'Poppins', sans-serif;
 `
 const Button = styled.button`
 padding: 10px;
 background: #3B4CCA;
-/* font-family: 'Noto Sans Mono', monospace; */
 font-family: 'Poppins', sans-serif;
 border-radius: 10px;
 margin-top: 40px;

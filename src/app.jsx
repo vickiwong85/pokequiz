@@ -36,7 +36,6 @@ const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
   background: #FFDE00;
-  /* font-family: 'Noto Sans Mono', monospace; */
   font-family: 'Poppins', sans-serif;
   padding: 30px;
   align-content: space-evenly;
@@ -46,7 +45,6 @@ const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: #FFDE00;
-  /* font-family: 'Noto Sans Mono', monospace; */
   font-family: 'Poppins', sans-serif;
   align-content: space-evenly;
   padding: 30px;
@@ -55,7 +53,6 @@ const ColumnContainer = styled.div`
 const Button = styled.button`
 padding: 10px;
 background: #3B4CCA;
-/* font-family: 'Noto Sans Mono', monospace; */
 font-family: 'Poppins', sans-serif;
 border-radius: 10px;
 margin-top: 40px;
@@ -125,7 +122,6 @@ const App = () => {
           alert('Wrong username or password!')
           setLoggedIn(false);
         }
-        console.log(data);
         setPokeDollars(data.data[0].pokedollars);
         setCount(data.data[0].pokemoncount);
         setId(data.data[0].id)
@@ -169,7 +165,6 @@ const App = () => {
     .then(() => {
       axios.get('/leaderboard')
         .then((result) => {
-          console.log('leaders', result);
           setLeaders(result.data);
         })
         .catch((err) => {
@@ -196,14 +191,11 @@ const App = () => {
     params.password = password;
     axios.post('/login', { params } )
       .then((data) => {
-        console.log(data);
         axios.get('/leaderboard')
         .then((result) => {
-          console.log('leaders', result);
           setLeaders(result.data);
           axios.get('/login', { params })
             .then((data) => {
-              console.log(data);
               setPokeDollars(data.data[0].pokedollars);
               setCount(data.data[0].pokemoncount);
               setId(data.data[0].id);
@@ -243,7 +235,6 @@ const App = () => {
     event.preventDefault();
     axios.get(`https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`)
       .then((data) => {
-        console.log(data.data.results);
         setQuestions(data.data.results);
         let answers = {};
         for (let i = 0; i < data.data.results.length; i++) {
@@ -268,37 +259,8 @@ const App = () => {
       }
     }
     var income = numberCorrect * 5;
-    // var string = '';
-    // if (questionsIncorrect.length === 0) {
-    //   alert(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollar(s) have been added to your wallet.`)
-    // } else if (questionsIncorrect.length === 1) {
-    //   var actual = Number(questionsIncorrect[0]) + 1;
-    //   string += actual.toString();
-      setMessage(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollars have been added to your wallet.`);
-      handleOpen();
-    // } else if (questionsIncorrect.length === 2) {
-    //   for (var question of questionsIncorrect) {
-    //     var actual = Number(question) + 1;
-    //     if (actual === questionsIncorrect.length + 1) {
-    //       string += ` and ${actual.toString()}`
-    //     } else {
-    //       string += actual.toString();
-    //     }
-    //   }
-    //   alert(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollars have been added to your wallet. Your answer to questions ${string} were incorrect.`)
-    // } else if (questionsIncorrect.length > 2){
-    //   for (var question of questionsIncorrect) {
-    //     var actual = Number(question) + 1;
-    //     console.log(actual);
-    //     if (actual === questionsIncorrect.length ) {
-    //       string += ` and ${actual.toString()}`
-    //     } else {
-    //       string += actual.toString() + ',';
-    //     }
-    // //   }
-    //   alert(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollar(s) have been added to your wallet.`)
-      // Your answer to questions ${string} were incorrect.
-    // }
+    setMessage(`You got ${numberCorrect}/${questions.length} correct! ${income} PokeDollars have been added to your wallet.`);
+    handleOpen();
     var currentPokeDollars = PokeDollars;
     currentPokeDollars+=income;
     setPokeDollars(currentPokeDollars);
@@ -319,7 +281,6 @@ const App = () => {
     var currentAnswers = answersChosen;
     currentAnswers[event.target.id] = event.target.value;
     setAnswersChosen(currentAnswers);
-    console.log(answersChosen);
   }
 
   function purchase (event) {
@@ -342,7 +303,6 @@ const App = () => {
       return;
     }
     money = money - price;
-    console.log(money);
     setPokeDollars(money);
     var params = {};
     params.pokedollars = money;
@@ -372,18 +332,12 @@ const App = () => {
 
     axios.get(`/pokemon/${path}/`)
       .then((data) => {
-        console.log(data.data);
         currentPoke = data.data;
         var poke = data.data.identifier.charAt(0).toUpperCase() + data.data.identifier.slice(1);
-
         setReceipt(`You bought a ${ball}. When you open the ${ball}... a wild ${poke} jumps out!`);
-        console.log(receipt);
         handleOpenReceipt();
-
         axios.get(`https://pokeapi.co/api/v2/pokemon/${data.data.id}`)
           .then((result) => {
-            console.log(result.data.forms[0].name);
-            console.log(result.data.sprites.front_default);
             var pokemonInfo = {};
             pokemonInfo.name = result.data.forms[0].name.charAt(0).toUpperCase() + result.data.forms[0].name.slice(1);;
             pokemonInfo.photo = result.data.sprites.front_default;
@@ -393,9 +347,7 @@ const App = () => {
             setPokemon(pokemonInfo);
             var list = pokemonlist.slice();
             list.push(pokemonInfo);
-            console.log(list);
             setPokemonList(list);
-            // localStorage.setItem("pokemonlist", JSON.stringify(list));
             setCount(list.length);
             var params = {};
             params.count = list.length;
@@ -440,7 +392,6 @@ const App = () => {
   function handleLeaders () {
     axios.get('/leaderboard')
         .then((result) => {
-          console.log('leaders', result);
           setLeaders(result.data);
           setShowLeader(true);
           setShowQuiz(false);
